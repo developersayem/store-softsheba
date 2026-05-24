@@ -2,13 +2,15 @@
 
 import * as React from "react"
 import {
-  BookOpen,
-  Bot,
-  Command,
-  LifeBuoy,
-  Send,
-  Settings2,
-  SquareTerminal,
+  Settings,
+  ShoppingCart,
+  Users,
+  Package,
+  Star,
+  Mail,
+  Megaphone,
+  Briefcase,
+  LayoutDashboard
 } from "lucide-react"
 
 import {
@@ -34,45 +36,48 @@ const data = {
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: Bot,
+      title: "Orders",
+      url: "/dashboard/orders",
+      icon: ShoppingCart,
     },
     {
-      title: "Analytics",
-      url: "#",
-      icon: BookOpen,
+      title: "Products Catalog",
+      url: "/dashboard/products",
+      icon: Package,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: Settings2,
+      title: "Reviews",
+      url: "/dashboard/reviews",
+      icon: Star,
     },
     {
-      title: "Team",
-      url: "#",
-      icon: Settings2,
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Data Library",
-      url: "#",
-      icon: LifeBuoy,
+      title: "CRM",
+      url: "/dashboard/crm",
+      icon: Users,
     },
     {
-      title: "Reports",
-      url: "#",
-      icon: Send,
+      title: "Support Mails",
+      url: "/dashboard/support",
+      icon: Mail,
     },
     {
-      title: "Word Assistant",
-      url: "#",
-      icon: Send,
+      title: "Staff Management",
+      url: "/dashboard/staff",
+      icon: Briefcase,
+    },
+    {
+      title: "Marketing",
+      url: "/dashboard/marketing",
+      icon: Megaphone,
+    },
+    {
+      title: "Settings",
+      url: "/dashboard/settings",
+      icon: Settings,
     },
   ],
 }
@@ -84,12 +89,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<a href="#" />}>
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <Command className="size-4" />
+              <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-emerald-600 text-white">
+                <LayoutDashboard className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">Acme Inc</span>
-                <span className="truncate text-xs">Enterprise</span>
+                <span className="truncate font-bold text-lg">Softsheba</span>
+                <span className="truncate text-xs text-zinc-400">Admin Panel</span>
               </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -103,22 +108,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {data.navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton isActive={item.isActive} render={<a href={item.url} />}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel>Documents</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {data.navSecondary.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton size="sm" render={<a href={item.url} />}>
                     <item.icon />
                     <span>{item.title}</span>
                   </SidebarMenuButton>

@@ -32,6 +32,6 @@ export const loginUser = async (email: string, password: string) => {
     throw new ApiError(401, "Invalid credentials");
   }
 
-  const token = generateToken({ id: user.id, email: user.email });
-  return { user: { id: user.id, name: user.name, email: user.email }, token };
+  const token = generateToken({ id: user.id, email: user.email, role: user.role });
+  return { user: { id: user.id, name: user.name, email: user.email, role: user.role }, token };
 };
