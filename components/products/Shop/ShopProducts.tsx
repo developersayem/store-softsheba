@@ -1,4 +1,4 @@
-import { products } from '@/lib/products/fetchedByCategoy'
+import { products } from '@/app/data/products'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -9,7 +9,7 @@ export default function ShopProducts() {
   return (
     <div className="grid grid-cols-1 gap-3 mt-3 sm:grid-cols-2 md:gap-6 md:grid-cols-3 justify-items-center">
         {products.map((product) => (
-          <Link href={`/product/${product.link}`} key={product.id} className="relative group">
+          <Link href={`/product/${product.id}`} key={product.id} className="relative group">
             <div className="relative overflow-hidden cursor-pointer">
               <Image
                 src={product.image}
