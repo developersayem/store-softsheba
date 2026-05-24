@@ -26,24 +26,29 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   const useRelatedTwo = [
     "invoice-software-lifetime-license",
     "aster-multiseat-software",
-    "whatsapp-crm-all-in-one-whatsapp-business-solution"
+    "whatsapp-crm-all-in-one-whatsapp-business-solution",
   ].includes(product.id);
 
   return (
-    <div className={product.id === "linkedin-extream-scrap-lead-from-linkedin" ? "mt-20 lg:mt-0" : ""}>
+    <div
+      className={
+        product.id === "linkedin-extream-scrap-lead-from-linkedin"
+          ? "mt-20 lg:mt-0"
+          : ""
+      }
+    >
       <PageLayout>
         <Header
           fullName={product.headerFullName || product.name}
           toolName={product.headerToolName || product.category}
           link={product.link}
         />
-        {/* @ts-ignore */}
+
         <LinkedinPrimaryDetails product={product} />
         <DescriptionAndReviews
           reviews={product.reviews}
           name={product.name}
           sectionToShow={product.sectionToShow}
-          
           businessPro={product.businessPro}
           asterMultiseatDesc={product.asterMultiseatDesc}
           emailBroadcastDesc={product.emailBroadcastDesc}
@@ -53,14 +58,20 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
           invoiceDesc={product.invoiceDesc}
           linkedinDesc={product.linkedinDesc}
           marketingSoftDesc={product.marketingSoftDesc}
-
-          // @ts-ignore
           additionalInfo={product.additionalInfo}
           license={product.license}
           videoTitle={product.videoTitle}
           videoTutorial={product.videoTutorial}
         />
-        <div className={product.id.includes("linkedin") || product.id.includes("marketing") || product.id.includes("reseller") ? "py-20" : "mb-8 mt-18"}>
+        <div
+          className={
+            product.id.includes("linkedin") ||
+            product.id.includes("marketing") ||
+            product.id.includes("reseller")
+              ? "py-20"
+              : "mb-8 mt-18"
+          }
+        >
           <CreateReview name={product.name} reviews={product.reviews} />
         </div>
         <div className="my-12 bg-gray-50">

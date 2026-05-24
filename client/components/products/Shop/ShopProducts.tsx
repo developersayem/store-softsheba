@@ -27,7 +27,7 @@ export default function ShopProducts() {
                 </div>
               </div>
               {product.sale && (
-                <span className="absolute top-5 left-3 bg-[#8b53f9] text-white py-2 px-4 text-base rounded">
+                <span className="absolute top-5 left-3 bg-green-500 text-white py-2 px-4 text-base rounded">
                   SALE
                 </span>
               )}
@@ -48,7 +48,7 @@ export default function ShopProducts() {
                     </div>
                 ) : null
               }
-              <div className="flex items-center gap-2 mt-2 text-base text-[#8b5cf9] font-bold">
+              <div className="flex items-center gap-2 mt-2 text-base text-green-600 font-bold">
                 {product.cutPrice && (
                   <div className="line-through opacity-70">{product.cutPrice}</div>
                 )}

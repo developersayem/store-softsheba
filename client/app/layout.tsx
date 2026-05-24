@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Wrapper from "@/components/wrapper/Wrapper";
 import { NextFont } from "next/dist/compiled/@next/font";
-import { Open_Sans } from "next/font/google";
+import { Open_Sans, Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
 
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "Softsheba",
@@ -29,12 +31,13 @@ export default function RootLayout({
   
 
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <head>
         <link rel="preload" href="/_next/static/chunks/[root-of-the-server]__8d5f5124._.css" as="style" />
       </head>
       <body
         className={`${openSans.className} antialiased`}
+        suppressHydrationWarning
       >
         <Wrapper>
           <main>
