@@ -1,10 +1,15 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
-import { ENV } from "../config/env";
-import * as schema from "./schema";
+import mongoose from "mongoose";
 
-const pool = new Pool({
-  connectionString: ENV.DATABASE_URL,
-});
+const connectDB = async (): Promise<void> => {
+  try {
+    const dynamicUri = process.env.MONGODB_URI || "";
 
-export const db = drizzle(pool, { schema });
+    const connectionInstance = await mongoose.connect(dynamicUri);
+    console.log(` 📂 Database Name: ${connectionInstance.connection.name}`);
+    console.log(` 🏠 DB Host: ${connectionInstance.connection.host}`);
+  } catch (error) {
+    console.error("❌ Database connection failed", error);
+    process.exit(1); // Exit the process with failure
+  }
+};
+export default connectDB;

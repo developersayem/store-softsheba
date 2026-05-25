@@ -1,0 +1,12 @@
+import { ProductFormProvider } from "@/contexts/product-form-context";
+import { AuthProvider } from "@/contexts/auth-context";
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AuthProvider>
+      <ProductFormProvider>
+        {children}
+      </ProductFormProvider>
+    </AuthProvider>
+  );
+}

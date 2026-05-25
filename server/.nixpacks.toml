@@ -1,0 +1,5 @@
+[phases.setup]
+command = "npm install --include=dev"
+
+[phases.build]
+command = "npm run build"

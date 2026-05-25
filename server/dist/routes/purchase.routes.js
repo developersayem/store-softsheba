@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_middleware_1 = require("../middlewares/auth.middleware");
+const purchase_controller_1 = require("../controllers/purchase.controller");
+const router = (0, express_1.Router)();
+router.get("/", auth_middleware_1.verifyJWT, purchase_controller_1.getAllPurchases);
+router.get("/:id", auth_middleware_1.verifyJWT, purchase_controller_1.getPurchaseById);
+router.post("/", auth_middleware_1.verifyJWT, purchase_controller_1.createPurchase);
+router.put("/:id", auth_middleware_1.verifyJWT, purchase_controller_1.updatePurchase);
+router.delete("/:id", auth_middleware_1.verifyJWT, purchase_controller_1.deletePurchase);
+exports.default = router;

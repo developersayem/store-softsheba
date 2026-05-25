@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const shipping_rule_controller_1 = require("../controllers/shipping_rule.controller");
+const router = (0, express_1.Router)();
+router.get("/", shipping_rule_controller_1.getAllShippingRules);
+router.get("/:id", shipping_rule_controller_1.getShippingRuleById);
+router.post("/", shipping_rule_controller_1.createShippingRule);
+router.patch("/:id/toggle-active", shipping_rule_controller_1.toggleShippingRuleStatus);
+router.put("/:id", shipping_rule_controller_1.updateShippingRule);
+router.delete("/:id", shipping_rule_controller_1.deleteShippingRule);
+exports.default = router;

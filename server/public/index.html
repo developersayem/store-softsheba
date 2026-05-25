@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShopXet API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f7f9;
+        color: #333;
+      }
+      header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        display: flex;
+        max-width: 1400px;
+        margin: 20px auto;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        min-height: 80vh;
+      }
+      aside {
+        width: 250px;
+        padding: 20px;
+        background-color: #eee;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+      }
+      main {
+        flex-grow: 1;
+        padding: 20px 40px;
+        overflow-y: auto;
+      }
+      h1 {
+        color: white;
+        margin: 0;
+      }
+      h2,
+      h3 {
+        color: #0056b3;
+        border-bottom: 2px solid #0056b3;
+        padding-bottom: 5px;
+        margin-top: 30px;
+      }
+      h3 {
+        border-bottom: 1px solid #ccc;
+        color: #555;
+        padding-bottom: 2px;
+        margin-top: 20px;
+        font-size: 1.2em;
+      }
+      p,
+      ul {
+        line-height: 1.6;
+      }
+      code,
+      .code-block {
+        background-color: #f0f0f0;
+        padding: 2px 4px;
+        border-radius: 3px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9em;
+        display: inline-block;
+      }
+      .code-block {
+        display: block;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        overflow-x: auto;
+      }
+      .endpoint {
+        margin-bottom: 25px;
+        padding: 15px;
+        border: 1px solid #e1e1e1;
+        border-radius: 5px;
+      }
+      .method {
+        display: inline-block;
+        padding: 5px 10px;
+        margin-right: 10px;
+        border-radius: 3px;
+        font-weight: bold;
+        color: white;
+      }
+      .GET {
+        background-color: #61affe;
+      }
+      .POST {
+        background-color: #49cc90;
+      }
+      .PUT {
+        background-color: #fca130;
+      }
+      .DELETE {
+        background-color: #f93e3e;
+      }
+      .PATCH {
+        background-color: #50e3c2;
+      }
+      .auth-status {
+        font-style: italic;
+        margin-left: 10px;
+        font-size: 0.9em;
+        color: #999;
+      }
+      .sidebar-link {
+        display: block;
+        padding: 8px 0;
+        text-decoration: none;
+        color: #333;
+        border-bottom: 1px dotted #ccc;
+      }
+      .sidebar-link:hover {
+        color: #0056b3;
+      }
+      .sidebar-heading {
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #0056b3;
+        font-size: 1.1em;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>ShopXet API Documentation</h1>
+      <div style="font-size: 1.2em; margin-top: 5px">
+        Base URL:
+        <code style="color: white; background-color: #555">/api/v1</code>
+      </div>
+    </header>
+
+    <div class="container">
+      <aside>
+        <div class="sidebar-heading">General</div>
+        <a class="sidebar-link" href="#authentication">Authentication</a>
+        <a class="sidebar-link" href="#conventions">Conventions</a>
+        <a class="sidebar-link" href="#static-assets">Static Assets</a>
+
+        <div class="sidebar-heading">API Routes</div>
+        <a class="sidebar-link" href="#auth"
+          >Auth (<code style="background-color: #eee">/auth</code>)</a
+        >
+        <a class="sidebar-link" href="#products"
+          >Products (<code style="background-color: #eee">/products</code>)</a
+        >
+        <a class="sidebar-link" href="#attributes"
+          >Attributes (<code style="background-color: #eee">/attributes</code
+          >)</a
+        >
+        <a class="sidebar-link" href="#variants"
+          >Variants (<code style="background-color: #eee">/variants</code>)</a
+        >
+        <a class="sidebar-link" href="#categories"
+          >Categories (<code style="background-color: #eee">/categories</code
+          >)</a
+        >
+        <a class="sidebar-link" href="#collections"
+          >Collections (<code style="background-color: #eee">/collections</code
+          >)</a
+        >
+        <a class="sidebar-link" href="#brands"
+          >Brands (<code style="background-color: #eee">/brands</code>)</a
+        >
+        <a class="sidebar-link" href="#suppliers"
+          >Suppliers (<code style="background-color: #eee">/suppliers</code>)</a
+        >
+        <a class="sidebar-link" href="#purchases"
+          >Purchases (<code style="background-color: #eee">/purchases</code>)</a
+        >
+        <a class="sidebar-link" href="#inventory"
+          >Inventory (<code style="background-color: #eee">/inventory</code>)</a
+        >
+        <a class="sidebar-link" href="#orders"
+          >Orders (<code style="background-color: #eee">/orders</code>)</a
+        >
+        <a class="sidebar-link" href="#customers"
+          >Customers (<code style="background-color: #eee">/customers</code>)</a
+        >
+        <a class="sidebar-link" href="#coupons"
+          >Coupons (<code style="background-color: #eee">/coupons</code>)</a
+        >
+        <a class="sidebar-link" href="#analytics"
+          >Analytics (<code style="background-color: #eee">/analytics</code>)</a
+        >
+        <a class="sidebar-link" href="#notifications"
+          >Notifications (<code style="background-color: #eee"
+            >/notifications</code
+          >)</a
+        >
+      </aside>
+
+      <main>
+        <h2 id="general">General Information</h2>
+
+        <h3 id="authentication">Authentication 🔐</h3>
+        <ul>
+          <li>
+            Uses **JWT** via cookies (<code class="code-block">accessToken</code
+            >, <code class="code-block">refreshToken</code>).
+          </li>
+          <li>
+            **Protected endpoints** require a valid access token via cookie.
+          </li>
+        </ul>
+
+        <h3 id="conventions">Conventions 📜</h3>
+        <ul>
+          <li>
+            **Content-Type**:
+            <code class="code-block">application/json</code> unless otherwise
+            noted (<code class="code-block">multipart/form-data</code> for file
+            uploads).
+          </li>
+          <li>
+            **Standard Response Envelope**:
+            <code class="code-block">{ statusCode, data, message }</code>.
+          </li>
+          <li>
+            **Pagination/Filtering**: Available on listing endpoints via query
+            string where supported.
+          </li>
+        </ul>
+
+        <h3 id="static-assets">Static Assets 🖼️</h3>
+        <ul>
+          <li>
+            <span class="method GET">GET</span>
+            <code class="code-block">/public/*</code> &rarr; static files served
+            from <code class="code-block">server/public</code>
+          </li>
+          <li>
+            <span class="method GET">GET</span>
+            <code class="code-block">/uploads/*</code> &rarr; uploaded assets
+            (e.g., product images)
+          </li>
+        </ul>
+
+        <hr />
+
+        <h2 id="auth">Auth Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/auth</code></p>
+
+        <div class="endpoint">
+          <span class="method GET">GET</span> <code class="code-block">/me</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Returns the current authenticated user.</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/login</code
+          ><span class="auth-status">(Public)</span>
+          <p>Step 1 of login: sends OTP code to email.</p>
+          <p>
+            Body:
+            <code class="code-block">{ email: string, password: string }</code>
+          </p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/verify-code</code
+          ><span class="auth-status">(Public)</span>
+          <p>
+            Step 2 of login: verifies code and issues cookies. Also returns
+            <code class="code-block">{ accessToken, user }</code>.
+          </p>
+          <p>
+            Body:
+            <code class="code-block">{ email: string, code: string }</code>
+          </p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/refresh-token</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Uses <code class="code-block">refreshToken</code> cookie to rotate
+            and return a new access token.
+          </p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/logout</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Clears <code class="code-block">accessToken</code> and
+            <code class="code-block">refreshToken</code> cookies.
+          </p>
+        </div>
+
+        <hr />
+
+        <h2 id="products">Products Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/products</code></p>
+
+        <div class="endpoint">
+          <span class="method GET">GET</span> <code class="code-block">/</code
+          ><span class="auth-status">(Public)</span>
+          <p>
+            Returns paginated list of products. Supports
+            <code class="code-block">productService</code> list filters (e.g.,
+            pagination, search) via Query.
+          </p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/slug/:slug</code
+          ><span class="auth-status">(Public)</span>
+          <p>Returns product by slug.</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/:id</code
+          ><span class="auth-status">(Public)</span>
+          <p>Returns product by id.</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span> <code class="code-block">/</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Creates a product. Uses
+            <code class="code-block">multipart/form-data</code>.
+          </p>
+          <p>Fields:</p>
+          <ul>
+            <li><code class="code-block">images</code>: file[] (max 10)</li>
+            <li>
+              <code class="code-block">digitalFile</code>: file (optional)
+            </li>
+            <li>
+              Other product fields in body (e.g.,
+              <code class="code-block">name</code>,
+              <code class="code-block">regular_price</code>,
+              <code class="code-block">is_digital_product</code>)
+            </li>
+          </ul>
+        </div>
+
+        <div class="endpoint">
+          <span class="method PUT">PUT</span>
+          <code class="code-block">/:id</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Updates a product. Uses
+            <code class="code-block">multipart/form-data</code>. Can add new
+            media; existing <code class="code-block">media_urls</code> can be
+            merged by providing them in the body.
+          </p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method DELETE">DELETE</span>
+          <code class="code-block">/:id</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Deletes a product and attempts to remove stored images/files.</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/bulk-delete</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Deletes multiple products.</p>
+          <p>Body: <code class="code-block">{ ids: string[] }</code></p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method PATCH">PATCH</span>
+          <code class="code-block">/:id/toggle-publish</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Toggles product publish status.</p>
+        </div>
+
+        <hr />
+
+        <h2 id="attributes">Attributes Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/attributes</code></p>
+        <div class="endpoint">
+          <span class="method GET">GET</span> <code class="code-block">/</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Lists attributes.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method POST">POST</span> <code class="code-block">/</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Creates an attribute.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method PUT">PUT</span>
+          <code class="code-block">/:id</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Updates an attribute.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method DELETE">DELETE</span>
+          <code class="code-block">/:id</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Deletes an attribute.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method PATCH">PATCH</span>
+          <code class="code-block">/:id/toggle-status</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Toggles attribute status.</p>
+        </div>
+
+        <hr />
+
+        <h2 id="variants">Variants Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/variants</code></p>
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/product/:productId</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Lists variants for a specific product.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method POST">POST</span> <code class="code-block">/</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Creates a variant. Uses
+            <code class="code-block">multipart/form-data</code> (for
+            <code class="code-block">images</code>).
+          </p>
+        </div>
+
+        <hr />
+
+        <h2 id="categories">Categories Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/categories</code></p>
+        <div class="endpoint">
+          <span class="method GET">GET</span> <code class="code-block">/</code
+          ><span class="auth-status">(Public)</span>
+          <p>Returns all categories.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method POST">POST</span> <code class="code-block">/</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Creates a category. Uses
+            <code class="code-block">multipart/form-data</code> (for a single
+            <code class="code-block">image</code>).
+          </p>
+        </div>
+        <div class="endpoint">
+          <span class="method PATCH">PATCH</span>
+          <code class="code-block">/toggle-multiple-published</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Toggles publish status for multiple categories. Body:
+            <code class="code-block"
+              >{ ids: string[], action: 'publish' | 'unpublish' }</code
+            >
+          </p>
+        </div>
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/import</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Imports categories. Uses
+            <code class="code-block">multipart/form-data</code> for a CSV or
+            JSON file.
+          </p>
+        </div>
+
+        <hr />
+
+        <h2 id="collections">Collections Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/collections</code></p>
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/with-products</code
+          ><span class="auth-status">(Public)</span>
+          <p>Returns collections with related products.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/:slug/products</code
+          ><span class="auth-status">(Public)</span>
+          <p>Returns products belonging to the collection slug.</p>
+        </div>
+        <div class="endpoint">
+          <span class="method PATCH">PATCH</span>
+          <code class="code-block">/toggle-multiple-featured</code
+          ><span class="auth-status">(Protected)</span>
+          <p>
+            Toggles featured status for multiple collections. Body:
+            <code class="code-block"
+              >{ ids: string[], action: 'feature' | 'unfeature' }</code
+            >
+          </p>
+        </div>
+
+        <hr />
+
+        <h2 id="inventory">Inventory Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/inventory</code></p>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/update-stock</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Updates stock quantity.</p>
+          <p>
+            Body:
+            <code class="code-block"
+              >{ productId, variantId?, quantityDelta }</code
+            >
+          </p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/:productId/:variantId</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Get inventory for a specific variant.</p>
+        </div>
+
+        <div class="endpoint">
+          <span class="method GET">GET</span>
+          <code class="code-block">/:productId</code
+          ><span class="auth-status">(Protected)</span>
+          <p>Get inventory for a product (all variants).</p>
+        </div>
+
+        <hr />
+
+        <h2 id="orders">Orders Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/orders</code></p>
+        <p>
+          CRUD operations are defined but **Authentication Status is Unknown**.
+        </p>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span> <code class="code-block">/</code
+          ><span class="auth-status">(Protected/Unknown)</span>
+          <p>Create order.</p>
+        </div>
+        <hr />
+
+        <h2 id="coupons">Coupons Routes</h2>
+        <p>Route Prefix: <code class="code-block">/api/v1/coupons</code></p>
+
+        <div class="endpoint">
+          <span class="method POST">POST</span>
+          <code class="code-block">/apply</code
+          ><span class="auth-status">(Protected/Unknown)</span>
+          <p>Apply a coupon to a cart/order context.</p>
+        </div>
+
+        <hr />
+
+        <h2 id="notes">Developer Notes 📝</h2>
+        <ul>
+          <li>
+            Endpoints marked **Protected/Unknown** may require authentication
+            based on business requirements, even if not enforced in the route
+            file. Verify in controllers/services.
+          </li>
+          <li>
+            File upload fields use a storage layer writing into
+            <code class="code-block">/uploads</code>. Returned URLs are
+            accessible under the static route
+            <code class="code-block">/uploads</code>.
+          </li>
+          <li>
+            **CORS** is restricted by the
+            <code class="code-block">ALLOWED_ORIGINS</code> environment
+            variable.
+          </li>
+        </ul>
+      </main>
+    </div>
+  </body>
+</html>

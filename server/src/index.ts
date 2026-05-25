@@ -1,40 +1,68 @@
-import express from "express";
-import cors from "cors";
-import helmet from "helmet";
-import path from "path";
-import { ENV } from "./config/env";
-import { errorHandler } from "./middlewares/error.middleware";
-import authRoutes from "./routes/auth.routes";
-import productRoutes from "./routes/product.routes";
-import orderRoutes from "./routes/order.routes";
+import dotenv from "dotenv";
+import connectDB from "./db/index";
+import logger from "./utils/logger";
+import { app } from "./app";
+import asyncHandler from "./utils/asyncHandler";
+import { ApiResponse } from "./utils/ApiResponse";
+import type { Request, Response } from "express";
+import SowingSeed from "./db/seed/index";
 
-const app = express();
+import http from "http";
 
-// Middlewares
-app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } })); // Ensure helmet allows static images across origins
-app.use(cors({
-  origin: ["http://localhost:3000", "http://localhost:3001"], // Allow frontend
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+import { initSocket } from "./socket";
 
-// Serve static files from the uploads directory
-app.use("/uploads", express.static(path.join(process.cwd(), "src", "uploads")));
-
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
-
-app.get("/", (req, res) => {
-  res.send("Softsheba API is running...");
+dotenv.config({
+  path: "./.env",
 });
 
-// Error Handling
-app.use(errorHandler);
+// Health check route
+app.use(
+  "/api/v1/health-check",
+  asyncHandler(async (req: Request, res: Response) => {
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, "API Server is running", "Health check Passed")
+      );
+  })
+);
 
-app.listen(ENV.PORT, () => {
-  console.log(`Server is running on port ${ENV.PORT}`);
+// Fallback for 404
+app.use((req, res) => {
+  res
+    .status(404)
+    .json({ message: "Requested resource could not be found. 😐" });
+});
+
+const PORT = process.env.PORT || 5000;
+
+connectDB()
+  .then(async () => {
+    // sowing all seeds
+    await SowingSeed();
+    const server = http.createServer(app);
+
+    initSocket(server);
+
+    // Start the server
+    server.listen(PORT, () => {
+      console.log(`\n  Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("❌ Failed to connect to the database:", error);
+    process.exit(1); // Exit the process with failure
+  });
+
+// Handle uncaught exceptions and unhandled rejections
+// This is important for production to avoid silent failures
+// and to log errors properly.
+process.on("uncaughtException", (error) => {
+  logger.error(`Uncaught Exception: ${error.message}\n${error.stack}`);
+  process.exit(1);
+});
+
+process.on("unhandledRejection", (reason) => {
+  logger.error(`Unhandled Rejection: ${reason}`);
+  process.exit(1);
 });
